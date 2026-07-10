@@ -19,5 +19,9 @@ spring:
   flyway:
     enabled: true
 
+jwt:
+  secret: 67R6r7Ma/T+jP8EacBFA0Rr8uqSUJCppSZult/YoiFIQUaJQuu27MBgt1zk6Ym170qLOkvkXgHMNw/dxOuw84w==
+  expiration: 86400000
+
 server:
-    port: 8081
+    port: 8080

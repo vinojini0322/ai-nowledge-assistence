@@ -14,8 +14,8 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User findById(UUID userId) {
         return userRepository.findById(userId)

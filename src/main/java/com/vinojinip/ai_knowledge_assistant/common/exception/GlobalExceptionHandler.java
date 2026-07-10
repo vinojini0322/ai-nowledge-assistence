@@ -59,16 +59,36 @@ public class GlobalExceptionHandler {
                 .body(buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request));
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(HttpServletRequest request) {
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.", request));
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleException(HttpServletRequest request) {
+//        return ResponseEntity
+//                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .body(buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.", request));
+//    }
 
     private ErrorResponse buildErrorResponse(HttpStatus status,
                                              String message,
                                              HttpServletRequest request) {
         return new ErrorResponse(Instant.now(), status.value(), status.getReasonPhrase(), message, request.getRequestURI());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(
+            Exception ex,
+            HttpServletRequest request) {
+
+        ex.printStackTrace();
+
+        ErrorResponse response = new ErrorResponse(
+                Instant.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "An unexpected error occurred.",
+                request.getRequestURI()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
     }
 }
