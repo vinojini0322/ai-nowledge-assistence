@@ -5,6 +5,7 @@ import com.vinojinip.ai_knowledge_assistant.auth.dto.LoginResponse;
 import com.vinojinip.ai_knowledge_assistant.auth.dto.RegisterRequest;
 import com.vinojinip.ai_knowledge_assistant.auth.dto.UserResponse;
 import com.vinojinip.ai_knowledge_assistant.auth.entity.User;
+import com.vinojinip.ai_knowledge_assistant.auth.mapper.UserMapper;
 import com.vinojinip.ai_knowledge_assistant.auth.service.AuthService;
 import com.vinojinip.ai_knowledge_assistant.auth.service.UserService;
 import jakarta.validation.Valid;
@@ -21,13 +22,19 @@ public class AuthController {
 
     private final UserService userService;
     private final AuthService authService;
+    private final UserMapper userMapper;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest request) {
-        User savedUser = userService.register(request);
+    public ResponseEntity<UserResponse> register(
+            @Valid @RequestBody RegisterRequest request
+    ) {
+        User user = userMapper.toEntity(request);
+
+        User savedUser = userService.register(user);
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(UserMapper.toResponse(savedUser));
+                .body(userMapper.toResponse(savedUser));
     }
 
     @PostMapping("/login")

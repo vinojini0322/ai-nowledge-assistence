@@ -5,6 +5,7 @@ import com.vinojinip.ai_knowledge_assistant.auth.entity.User;
 import com.vinojinip.ai_knowledge_assistant.auth.mapper.UserMapper;
 import com.vinojinip.ai_knowledge_assistant.auth.repository.UserRepository;
 import com.vinojinip.ai_knowledge_assistant.common.exception.EmailAlreadyExistsException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+
 
     public User findById(UUID userId) {
         return userRepository.findById(userId)
@@ -27,13 +30,14 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public User register(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.email())) {
-            throw new EmailAlreadyExistsException(request.email());
+    @Transactional
+    public User register(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new EmailAlreadyExistsException(user.getEmail());
         }
-        String encodedPassword = passwordEncoder.encode(request.password());
 
-        User user = UserMapper.toEntity(request, encodedPassword);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
 }
