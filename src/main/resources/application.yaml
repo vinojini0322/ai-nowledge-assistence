@@ -1,20 +1,18 @@
+server:
+  port: ${PORT:8081}
+
 spring:
   application:
     name: ai-knowledge-assistant
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/ai_knowledge_assistant
-    username: postgres
-    password: 1111
-
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:ai_knowledge_assistant}
+    username: ${PGUSER:postgres}
+    password: ${PGPASSWORD:1111}
 
   jpa:
     hibernate:
       ddl-auto: validate
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
     open-in-view: false
 
   flyway:
@@ -25,26 +23,15 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
 
-jwt:
-  secret: 67R6r7Ma/T+jP8EacBFA0Rr8uqSUJCppSZult/YoiFIQUaJQuu27MBgt1zk6Ym170qLOkvkXgHMNw/dxOuw84w==
-  expiration: 86400000
+app:
+  cors:
+    allowed-origins: ${FRONTEND_URL:http://localhost:5173}
 
-server:
-    port: 8080
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000}
 
 openai:
   api-key: ${OPENAI_API_KEY:}
   model: ${OPENAI_MODEL:gpt-4.1-mini}
   base-url: https://api.openai.com
-
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html
-    operations-sorter: method
-    tags-sorter: alpha
-
-app:
-  cors:
-    allowed-origins: http://localhost:3000,http://localhost:5173
