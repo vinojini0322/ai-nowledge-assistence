@@ -17,4 +17,6 @@ public interface DocumentRepository extends JpaRepository<Document, UUID> {
             UUID documentId,
             UUID userId
     );
+
+    long countByUser_Id(UUID userId);
 }

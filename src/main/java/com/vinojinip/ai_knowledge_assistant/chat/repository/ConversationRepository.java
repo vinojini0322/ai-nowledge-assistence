@@ -17,4 +17,6 @@ public interface ConversationRepository extends JpaRepository<Conversation, UUID
             UUID id,
             UUID userId
     );
+
+    long countByUser_Id(UUID userId);
 }
