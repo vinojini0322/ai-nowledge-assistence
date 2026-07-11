@@ -193,6 +193,36 @@ erDiagram
 
 A detailed version is available in [docs/er-diagram.md](docs/er-diagram.md).
 
+---
+
+# Application Screenshots
+
+## Register
+
+![Login Page](docs/screenshots/register.png)
+
+## Login
+
+![Login Page](docs/screenshots/login.png)
+
+## Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+## AI Chat
+
+![AI Chat](docs/screenshots/chat.png)
+
+## Document Chat
+
+![Document Chat](docs/screenshots/document.png)
+
+## Profile
+
+![Document Chat](docs/screenshots/profile.png)
+
+---
+
 # Project Structure
 
 ```
